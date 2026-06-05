@@ -18,7 +18,6 @@ const parser = new Parser<Record<string, unknown>, FeedItem>({
     'User-Agent': 'Mozilla/5.0 (compatible; MedicalNewsBot/1.0; +https://github.com/medical-news-agent)',
     Accept: 'application/rss+xml, application/xml, text/xml, */*',
   },
-  xml2jsParserOptions: { strict: false },
 });
 
 const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
@@ -39,7 +38,7 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'PubMed',
-    url: 'https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=infectious+disease&format=abstract&limit=15',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=infectious+disease&limit=15',
     siteUrl: 'https://pubmed.ncbi.nlm.nih.gov',
   },
   {
@@ -59,8 +58,32 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
 ];
 
-async function crawlSource(source: { name: NewsSource; url: string; siteUrl: string }): Promise<RawArticle[]> {
-  const feed = await parser.parseURL(source.url);
+function sanitizeXml(xml: string): string {
+  // Fix unescaped ampersands outside of known entities
+  return xml.replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[\da-fA-F]+);)/g, '&amp;');
+}
+
+async function crawlSourceWithFallback(
+  source: { name: NewsSource; url: string; siteUrl: string }
+): Promise<RawArticle[]> {
+  let feed;
+  try {
+    feed = await parser.parseURL(source.url);
+  } catch {
+    // Try fetching raw and sanitizing XML first
+    const res = await fetch(source.url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; MedicalNewsBot/1.0)',
+        Accept: 'application/rss+xml, application/xml, text/xml, */*',
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) throw new Error(`Status code ${res.status}`);
+    const raw = await res.text();
+    const cleaned = sanitizeXml(raw);
+    feed = await parser.parseString(cleaned);
+  }
+
   return feed.items
     .slice(0, 20)
     .map((item) => ({
@@ -78,7 +101,7 @@ export async function crawlAllSources(): Promise<{ articles: RawArticle[]; error
   const articles: RawArticle[] = [];
   const errors: string[] = [];
 
-  const results = await Promise.allSettled(RSS_SOURCES.map((s) => crawlSource(s)));
+  const results = await Promise.allSettled(RSS_SOURCES.map((s) => crawlSourceWithFallback(s)));
 
   results.forEach((result, i) => {
     if (result.status === 'fulfilled') {
