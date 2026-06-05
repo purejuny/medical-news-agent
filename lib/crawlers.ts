@@ -18,6 +18,7 @@ const parser = new Parser<Record<string, unknown>, FeedItem>({
     'User-Agent': 'Mozilla/5.0 (compatible; MedicalNewsBot/1.0; +https://github.com/medical-news-agent)',
     Accept: 'application/rss+xml, application/xml, text/xml, */*',
   },
+  xml2jsParserOptions: { strict: false },
 });
 
 const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
@@ -38,7 +39,7 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'PubMed',
-    url: 'https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=disease+outbreak&format=abstract&limit=20&_=1',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=infectious+disease&format=abstract&limit=15',
     siteUrl: 'https://pubmed.ncbi.nlm.nih.gov',
   },
   {
@@ -53,8 +54,8 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'Reuters',
-    url: 'https://www.medicalnewstoday.com/rss',
-    siteUrl: 'https://www.medicalnewstoday.com',
+    url: 'https://www.statnews.com/feed/',
+    siteUrl: 'https://www.statnews.com',
   },
 ];
 
