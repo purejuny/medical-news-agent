@@ -33,8 +33,8 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'NIH',
-    url: 'https://www.nih.gov/rss.xml',
-    siteUrl: 'https://www.nih.gov',
+    url: 'https://newsnetwork.mayoclinic.org/feed/',
+    siteUrl: 'https://newsnetwork.mayoclinic.org',
   },
   {
     name: 'PubMed',
