@@ -33,8 +33,8 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'NIH',
-    url: 'https://newsnetwork.mayoclinic.org/feed/',
-    siteUrl: 'https://newsnetwork.mayoclinic.org',
+    url: 'https://wwwnc.cdc.gov/eid/rss/ahead-of-print.xml',
+    siteUrl: 'https://wwwnc.cdc.gov/eid',
   },
   {
     name: 'PubMed',
