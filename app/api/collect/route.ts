@@ -6,7 +6,7 @@ export const maxDuration = 60;
 
 export async function POST() {
   try {
-    const result = await runCollection(5);
+    const result = await runCollection(15);
     return NextResponse.json(result);
   } catch (err) {
     console.error('[API/collect]', err);

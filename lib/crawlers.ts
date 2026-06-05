@@ -38,7 +38,7 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'PubMed',
-    url: 'https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=infectious+disease+outbreak+epidemiology&format=abstract&limit=20',
+    url: 'https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=disease+outbreak&format=abstract&limit=20&_=1',
     siteUrl: 'https://pubmed.ncbi.nlm.nih.gov',
   },
   {
@@ -48,13 +48,13 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'GoogleNews',
-    url: 'https://news.google.com/rss/topics/CAAqIQgKIhtDQkFTRGdvSUwyMHZNR3QwTlRZU0FtVnVLQUFQAQ?hl=en-US&gl=US&ceid=US:en',
+    url: 'https://news.google.com/rss/search?q=disease+outbreak+health&hl=en-US&gl=US&ceid=US:en',
     siteUrl: 'https://news.google.com',
   },
   {
     name: 'Reuters',
-    url: 'https://feeds.reuters.com/reuters/healthNews',
-    siteUrl: 'https://www.reuters.com',
+    url: 'https://www.medicalnewstoday.com/rss',
+    siteUrl: 'https://www.medicalnewstoday.com',
   },
 ];
 
