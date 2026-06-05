@@ -38,8 +38,8 @@ const RSS_SOURCES: { name: NewsSource; url: string; siteUrl: string }[] = [
   },
   {
     name: 'PubMed',
-    url: 'https://pubmed.ncbi.nlm.nih.gov/rss/search/?term=infectious+disease&limit=15',
-    siteUrl: 'https://pubmed.ncbi.nlm.nih.gov',
+    url: 'https://www.sciencedaily.com/rss/health_medicine.xml',
+    siteUrl: 'https://www.sciencedaily.com',
   },
   {
     name: 'MedicalXpress',
